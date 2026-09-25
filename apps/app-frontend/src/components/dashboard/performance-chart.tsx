@@ -1,6 +1,7 @@
 // src/components/dashboard/performance-chart.tsx
 "use client";
 
+import { useSyncExternalStore } from "react";
 import { ChevronDown } from "lucide-react";
 import {
   AreaChart,
@@ -30,7 +31,16 @@ const data = [
   { day: "15/12", value: 185 },
 ];
 
+const emptySubscribe = () => () => {};
+
 export function PerformanceChart() {
+  // Returns false during SSR/hydration and true once mounted on the client, without triggering setState in an effect
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+
   return (
     <div className="w-full rounded-2xl border border-slate-100 bg-white p-3.5 shadow-xs">
       {/* Header */}
@@ -42,69 +52,73 @@ export function PerformanceChart() {
         </button>
       </div>
 
-      {/* Area Chart with node dots and grid */}
-      <div className="h-32 w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 8, right: 8, left: -24, bottom: 0 }}>
-            <defs>
-              <linearGradient id="performanceGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#2563EB" stopOpacity={0.25} />
-                <stop offset="100%" stopColor="#2563EB" stopOpacity={0.0} />
-              </linearGradient>
-            </defs>
+      {/* Area Chart Wrapper */}
+      <div className="h-32 w-full min-w-0">
+        {!isMounted ? (
+          <div className="h-full w-full animate-pulse rounded-lg bg-slate-50" />
+        ) : (
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={data} margin={{ top: 8, right: 8, left: -24, bottom: 0 }}>
+              <defs>
+                <linearGradient id="performanceGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#2563EB" stopOpacity={0.25} />
+                  <stop offset="100%" stopColor="#2563EB" stopOpacity={0.0} />
+                </linearGradient>
+              </defs>
 
-            {/* Grid lines across both axes */}
-            <CartesianGrid stroke="#F1F5F9" strokeDasharray="0" />
+              {/* Grid lines across both axes */}
+              <CartesianGrid stroke="#F1F5F9" strokeDasharray="0" />
 
-            <XAxis
-              dataKey="day"
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 8, fill: "#94A3B8" }}
-              dy={4}
-            />
-            <YAxis
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 8, fill: "#94A3B8" }}
-              domain={[0, 200]}
-              ticks={[0, 50, 100, 150, 200]}
-            />
+              <XAxis
+                dataKey="day"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 8, fill: "#94A3B8" }}
+                dy={4}
+              />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 8, fill: "#94A3B8" }}
+                domain={[0, 200]}
+                ticks={[0, 50, 100, 150, 200]}
+              />
 
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#0F172A",
-                border: "none",
-                borderRadius: "6px",
-                fontSize: "10px",
-                color: "#FFFFFF",
-                padding: "4px 8px",
-              }}
-              itemStyle={{ color: "#60A5FA" }}
-            />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#0F172A",
+                  border: "none",
+                  borderRadius: "6px",
+                  fontSize: "10px",
+                  color: "#FFFFFF",
+                  padding: "4px 8px",
+                }}
+                itemStyle={{ color: "#60A5FA" }}
+              />
 
-            <Area
-              type="monotone"
-              dataKey="value"
-              stroke="#2563EB"
-              strokeWidth={2}
-              fillOpacity={1}
-              fill="url(#performanceGrad)"
-              dot={{
-                r: 2.5,
-                fill: "#2563EB",
-                stroke: "#FFFFFF",
-                strokeWidth: 1,
-              }}
-              activeDot={{
-                r: 4,
-                fill: "#1D4ED8",
-                stroke: "#FFFFFF",
-                strokeWidth: 1.5,
-              }}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+              <Area
+                type="monotone"
+                dataKey="value"
+                stroke="#2563EB"
+                strokeWidth={2}
+                fillOpacity={1}
+                fill="url(#performanceGrad)"
+                dot={{
+                  r: 2.5,
+                  fill: "#2563EB",
+                  stroke: "#FFFFFF",
+                  strokeWidth: 1,
+                }}
+                activeDot={{
+                  r: 4,
+                  fill: "#1D4ED8",
+                  stroke: "#FFFFFF",
+                  strokeWidth: 1.5,
+                }}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        )}
       </div>
     </div>
   );

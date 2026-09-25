@@ -2,6 +2,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/src/app/globals.css";
+import "@fontsource-variable/inter";
+import "./globals.css"; // from global CSS file
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,12 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter.variable} antialiased bg-white text-slate-900`}
-      >
-        {children}
-      </body>
+    <html lang="en">
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }

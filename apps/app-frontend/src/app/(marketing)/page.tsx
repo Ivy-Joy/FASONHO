@@ -1,3 +1,4 @@
+//// src/app/(marketing)/page.tsx
 //import { AnnouncementBar } from "@/src/components/layout/announcement-bar";
 import { Navbar } from "@/src/components/layout/navbar";
 import { HeroSection } from "@/src/components/hero/hero-section";
