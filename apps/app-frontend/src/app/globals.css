@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+/* =========================================
+   FASONHO DESIGN SYSTEM
+   Technology, Made Simpler.
+========================================= */
+
+:root {
+  /* Surfaces */
+  --background: #FFFFFF;
+  --surface: #F8FBFF;
+  --surface-2: #F1F6FF;
+
+  /* Text */
+  --foreground: #0F172A;
+  --heading: #08152D;
+  --muted: #64748B;
+
+  /* Brand */
+  --primary: #2563EB;
+  --primary-dark: #1D4ED8;
+  --secondary: #06B6D4;
+  --gold: #D4A72C;
+  --navy: #071A3D;
+
+  /* Borders */
+  --border: #E2E8F0;
+  --border-light: #EEF2F7;
+
+  /* Radius */
+  --radius: 24px;
+
+  /* Shadows */
+  --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 10px 30px rgba(37, 99, 235, 0.08);
+  --shadow-lg: 0 25px 60px rgba(15, 23, 42, 0.12);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Base */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Selection */
+::selection {
+  background: rgba(37, 99, 235, 0.18);
+  color: var(--foreground);
+}
+
+/* Containers */
+.container-fasonho {
+  @apply mx-auto max-w-7xl px-6;
+}
+
+/* Hero background */
+.hero-grid {
+  background-image:
+    radial-gradient(circle at top right, rgba(37,99,235,.10), transparent 38%),
+    radial-gradient(circle at bottom left, rgba(6,182,212,.08), transparent 40%);
+}
+
+/* CTA globe section */
+.cta-grid {
+  background-image:
+    radial-gradient(circle at center, rgba(37,99,235,.18), transparent 55%);
+}
+
+/* Cards */
+.card-fasonho {
+  background: white;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-fasonho:hover {
+  box-shadow: var(--shadow-md);
+  transition: 250ms ease;
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-[#2563EB] to-[#06B6D4] bg-clip-text text-transparent;
+}
+
+/* Buttons */
+.btn-shadow {
+  box-shadow: 0 10px 24px rgba(212, 167, 44, 0.22);
+}
