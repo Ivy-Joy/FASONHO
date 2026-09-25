@@ -34,7 +34,6 @@ const data = [
 const emptySubscribe = () => () => {};
 
 export function PerformanceChart() {
-  // Returns false during SSR/hydration and true once mounted on the client, without triggering setState in an effect
   const isMounted = useSyncExternalStore(
     emptySubscribe,
     () => true,
@@ -42,23 +41,25 @@ export function PerformanceChart() {
   );
 
   return (
-    <div className="w-full rounded-2xl border border-slate-100 bg-white p-3.5 shadow-xs">
+    <div className="w-full flex flex-col justify-between h-full">
       {/* Header */}
-      <div className="mb-3 flex items-center justify-between">
-        <h3 className="text-[11px] font-bold text-slate-900">Project Performance</h3>
-        <button className="flex items-center gap-1 rounded-lg border border-slate-200/80 bg-white px-2 py-0.5 text-[9px] font-semibold text-slate-600 shadow-2xs hover:bg-slate-50">
-          <span>Last 7 days</span>
-          <ChevronDown className="h-2.5 w-2.5 text-slate-400" />
+      <div className="mb-1 sm:mb-2 flex items-center justify-between">
+        <h3 className="text-[9px] sm:text-[11px] font-bold text-slate-900 truncate">
+          Project Performance
+        </h3>
+        <button className="flex items-center gap-0.5 sm:gap-1 rounded border border-slate-200/80 bg-white px-1 sm:px-2 py-0.5 text-[7px] sm:text-[9px] font-semibold text-slate-600 shadow-2xs">
+          <span>7 days</span>
+          <ChevronDown className="h-2 w-2 sm:h-2.5 sm:w-2.5 text-slate-400" />
         </button>
       </div>
 
       {/* Area Chart Wrapper */}
-      <div className="h-32 w-full min-w-0">
+      <div className="h-20 sm:h-28 w-full min-w-0 flex-1">
         {!isMounted ? (
-          <div className="h-full w-full animate-pulse rounded-lg bg-slate-50" />
+          <div className="h-full w-full animate-pulse rounded bg-slate-50" />
         ) : (
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data} margin={{ top: 8, right: 8, left: -24, bottom: 0 }}>
+            <AreaChart data={data} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
               <defs>
                 <linearGradient id="performanceGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#2563EB" stopOpacity={0.25} />
@@ -66,32 +67,31 @@ export function PerformanceChart() {
                 </linearGradient>
               </defs>
 
-              {/* Grid lines across both axes */}
               <CartesianGrid stroke="#F1F5F9" strokeDasharray="0" />
 
               <XAxis
                 dataKey="day"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fontSize: 8, fill: "#94A3B8" }}
-                dy={4}
+                tick={{ fontSize: 7, fill: "#94A3B8" }}
+                dy={2}
               />
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tick={{ fontSize: 8, fill: "#94A3B8" }}
+                tick={{ fontSize: 7, fill: "#94A3B8" }}
                 domain={[0, 200]}
-                ticks={[0, 50, 100, 150, 200]}
+                ticks={[0, 100, 200]}
               />
 
               <Tooltip
                 contentStyle={{
                   backgroundColor: "#0F172A",
                   border: "none",
-                  borderRadius: "6px",
-                  fontSize: "10px",
+                  borderRadius: "4px",
+                  fontSize: "8px",
                   color: "#FFFFFF",
-                  padding: "4px 8px",
+                  padding: "2px 6px",
                 }}
                 itemStyle={{ color: "#60A5FA" }}
               />
@@ -100,20 +100,20 @@ export function PerformanceChart() {
                 type="monotone"
                 dataKey="value"
                 stroke="#2563EB"
-                strokeWidth={2}
+                strokeWidth={1.5}
                 fillOpacity={1}
                 fill="url(#performanceGrad)"
                 dot={{
-                  r: 2.5,
+                  r: 1.5,
                   fill: "#2563EB",
                   stroke: "#FFFFFF",
                   strokeWidth: 1,
                 }}
                 activeDot={{
-                  r: 4,
+                  r: 3,
                   fill: "#1D4ED8",
                   stroke: "#FFFFFF",
-                  strokeWidth: 1.5,
+                  strokeWidth: 1,
                 }}
               />
             </AreaChart>
